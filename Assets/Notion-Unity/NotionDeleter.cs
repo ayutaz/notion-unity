@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -16,17 +15,18 @@ namespace NotionUnity
         {
             Debug.Log("Deleting " + blockIds.Count + " blocks...");
 
-            foreach (string blockId in blockIds)
+            foreach (var blockId in blockIds)
             {
                 await DeleteBlock(blockId);
             }
+
             Debug.Log("All Blocks deleted.");
         }
 
         public static async Task DeleteBlock(string blockId)
         {
             Debug.Log("Deleting block " + blockId);
-            string route = $"{Notion.API_URL}/blocks/{blockId}";
+            var route = $"{Notion.API_URL}/blocks/{blockId}";
             await Request(route);
         }
 
@@ -41,7 +41,7 @@ namespace NotionUnity
         {
             Debug.Log("> Notion API call DELETE " + uri + "\n");
 
-            using (UnityWebRequest webRequest = new UnityWebRequest(uri, "DELETE"))
+            using (var webRequest = new UnityWebRequest(uri, "DELETE"))
             {
                 webRequest.downloadHandler = new DownloadHandlerBuffer();
 

@@ -21,11 +21,11 @@ namespace NotionUnity
         /// <param name="databaseID"></param>
         public static async Task<TableResult> GetTableAsync(string databaseID)
         {
-            string route = $"{Notion.API_URL}/databases/{databaseID.Replace("-", "")}/query";
+            var route = $"{Notion.API_URL}/databases/{databaseID.Replace("-", "")}/query";
 
-            bool fetchMore = true;
-            string cursor = string.Empty;
-            TableResult table = new TableResult();
+            var fetchMore = true;
+            var cursor = string.Empty;
+            var table = new TableResult();
 
             Debug.Log("Downloading notion database [" + databaseID + "]...");
 
@@ -60,7 +60,7 @@ namespace NotionUnity
         /// <returns></returns>
         private static async Task<JObject> GetRequest(string uri, string cursor, string method, bool silent = false)
         {
-            string postData = string.Empty;
+            var postData = string.Empty;
             if (string.IsNullOrEmpty(cursor) == false)
             {
                 postData += "{" +
@@ -70,15 +70,15 @@ namespace NotionUnity
 
             if (!silent) Debug.Log("> Notion API call " + uri + "\n" + postData);
 
-            string textResult = string.Empty;
+            var textResult = string.Empty;
 
-            using (UnityWebRequest webRequest = new UnityWebRequest(uri, method))
+            using (var webRequest = new UnityWebRequest(uri, method))
             {
                 // ⚠ Unity poor implementation of HTTP client forces us to use a HACK to send non-form JSON with a POST verb
                 // https://forum.unity.com/threads/posting-json-through-unitywebrequest.476254/#post-4693241
                 if (string.IsNullOrEmpty(postData) == false)
                 {
-                    byte[] bodyRaw = Encoding.UTF8.GetBytes(postData);
+                    var bodyRaw = Encoding.UTF8.GetBytes(postData);
                     webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
                 }
 
@@ -128,7 +128,7 @@ namespace NotionUnity
         /// <param name="silent"></param>
         public static async Task<PageResult> GetPageAsync(string urlID, bool silent = false)
         {
-            string route = $"{Notion.API_URL}/pages/{urlID}";
+            var route = $"{Notion.API_URL}/pages/{urlID}";
 
             if (!silent) Debug.Log("Downloading notion page [" + urlID + "]...");
 
@@ -150,7 +150,7 @@ namespace NotionUnity
         /// <param name="pageID"></param>
         public static async Task<PageContentResult> GetPageContentAsync(string pageID)
         {
-            string route = $"{Notion.API_URL}/blocks/{pageID}/children";
+            var route = $"{Notion.API_URL}/blocks/{pageID}/children";
 
             Debug.Log("Downloading notion page content [" + pageID + "]...");
 
@@ -189,7 +189,7 @@ namespace NotionUnity
             switch (Type)
             {
                 case "title":
-                    string titleContent = string.Empty;
+                    var titleContent = string.Empty;
                     foreach (var t in item["title"])
                     {
                         titleContent += t["plain_text"].ToString();
@@ -198,7 +198,7 @@ namespace NotionUnity
                     return titleContent;
 
                 case "text":
-                    string textContent = string.Empty;
+                    var textContent = string.Empty;
                     foreach (var t in item["text"])
                     {
                         textContent += t["plain_text"].ToString();
@@ -207,7 +207,7 @@ namespace NotionUnity
                     return textContent;
 
                 case "rich_text":
-                    string richTextContent = string.Empty;
+                    var richTextContent = string.Empty;
                     foreach (var t in item["rich_text"])
                     {
                         richTextContent += t["plain_text"].ToString();
@@ -227,7 +227,7 @@ namespace NotionUnity
                     return string.Empty;
 
                 case "number":
-                    string numberString = item["number"].ToString();
+                    var numberString = item["number"].ToString();
                     return string.IsNullOrEmpty(numberString) == false ? float.Parse(numberString) : 0;
 
                 case "date":
@@ -266,12 +266,13 @@ namespace NotionUnity
                 case "formula":
                     if (item["formula"]["string"] != null)
                     {
-                      return item["formula"]["string"].ToString();
+                        return item["formula"]["string"].ToString();
                     }
                     else if (item["formula"]["number"] != null)
                     {
-                      return item["formula"]["number"].ToString();
+                        return item["formula"]["number"].ToString();
                     }
+
                     return string.Empty;
 
                 default:
@@ -428,14 +429,15 @@ namespace NotionUnity
         {
             get
             {
-                StringBuilder s = new StringBuilder();
+                var s = new StringBuilder();
                 foreach (var block in Blocks)
                 {
-                    string t = block.ToString();
+                    var t = block.ToString();
                     if (t.EndsWith("\n") == false)
                     {
-                      t += "\n";
+                        t += "\n";
                     }
+
                     s.Append(t);
                 }
 
@@ -458,7 +460,7 @@ namespace NotionUnity
     }
 
     public class PageBlock
-  {
+    {
         public string ID { get; private set; }
         public string Type { get; private set; }
         public string Value { get; private set; }
@@ -480,13 +482,13 @@ namespace NotionUnity
 
             try
             {
-                string r = string.Empty;
+                var r = string.Empty;
                 if (item[Type]["text"] != null)
                 {
-                  foreach (var t in item[Type]["text"])
-                  {
-                    r += t["plain_text"];
-                  }
+                    foreach (var t in item[Type]["text"])
+                    {
+                        r += t["plain_text"];
+                    }
                 }
 
                 return r;

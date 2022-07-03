@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace NotionUnity
@@ -11,7 +10,7 @@ namespace NotionUnity
         {
             var r = await NotionDownloader.GetTableAsync(databaseID);
 
-            for (int i = 0; i < r.Lines.Length; i++)
+            for (var i = 0; i < r.Lines.Length; i++)
             {
                 var line = r.Lines[i];
 

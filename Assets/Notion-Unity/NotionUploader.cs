@@ -17,7 +17,7 @@ namespace NotionUnity
         /// <param name="databaseID"></param>
         public static async Task UpdateTableAsync(string databaseID, string method, string json)
         {
-            string route = $"{Notion.API_URL}/databases/{databaseID.Replace("-", "")}";
+            var route = $"{Notion.API_URL}/databases/{databaseID.Replace("-", "")}";
 
             Debug.Log("Updating notion database [" + databaseID + "]...");
 
@@ -37,13 +37,13 @@ namespace NotionUnity
         {
             Debug.Log("> Notion API call " + method + " " + uri + "\n");
 
-            using (UnityWebRequest webRequest = new UnityWebRequest(uri, method))
+            using (var webRequest = new UnityWebRequest(uri, method))
             {
                 // ⚠ Unity poor implementation of HTTP client forces us to use a HACK to send non-form JSON with a POST verb
                 // https://forum.unity.com/threads/posting-json-through-unitywebrequest.476254/#post-4693241
                 if (string.IsNullOrEmpty(json) == false)
                 {
-                    byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+                    var bodyRaw = Encoding.UTF8.GetBytes(json);
                     webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
                 }
 
@@ -79,7 +79,7 @@ namespace NotionUnity
         /// <param name="title"></param>
         public static async void ChangeDatabaseTitle(string databaseId, string title)
         {
-            string data = @"{
+            var data = @"{
                 ""title"": [
                 {
                     ""text"": {
@@ -93,11 +93,11 @@ namespace NotionUnity
         }
 
 
-#region Helpers
+        #region Helpers
 
         public static string GetTitleBlock(string content)
         {
-            int level = 1;
+            var level = 1;
             if (content.StartsWith("####")) level = 4;
             else if (content.StartsWith("###")) level = 3;
             else if (content.StartsWith("##")) level = 2;
@@ -150,6 +150,6 @@ namespace NotionUnity
             }";
         }
 
-#endregion
+        #endregion
     }
 }
