@@ -11,7 +11,7 @@ namespace NotionUnity
     /// </summary>
     public static class NotionDeleter
     {
-        public static async Task DeleteBlocks(List<string> blockIds)
+        public static async UniTask DeleteBlocks(List<string> blockIds)
         {
             Debug.Log("Deleting " + blockIds.Count + " blocks...");
 
@@ -23,7 +23,7 @@ namespace NotionUnity
             Debug.Log("All Blocks deleted.");
         }
 
-        public static async Task DeleteBlock(string blockId)
+        public static async UniTask DeleteBlock(string blockId)
         {
             Debug.Log("Deleting block " + blockId);
             var route = $"{Notion.API_URL}/blocks/{blockId}";
@@ -37,7 +37,7 @@ namespace NotionUnity
         /// <param name="method"></param>
         /// <param name="json">Start cursor for paginated results</param>
         /// <returns></returns>
-        public static async Task Request(string uri)
+        public static async UniTask Request(string uri)
         {
             Debug.Log("> Notion API call DELETE " + uri + "\n");
 

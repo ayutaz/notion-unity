@@ -15,7 +15,7 @@ namespace NotionUnity
         /// Update a notion table 
         /// </summary>
         /// <param name="databaseID"></param>
-        public static async Task UpdateTableAsync(string databaseID, string method, string json)
+        public static async UniTask UpdateTableAsync(string databaseID, string method, string json)
         {
             var route = $"{Notion.API_URL}/databases/{databaseID.Replace("-", "")}";
 
@@ -33,7 +33,7 @@ namespace NotionUnity
         /// <param name="method"></param>
         /// <param name="json">Start cursor for paginated results</param>
         /// <returns></returns>
-        public static async Task Request(string uri, string method, string json)
+        public static async UniTask Request(string uri, string method, string json)
         {
             Debug.Log("> Notion API call " + method + " " + uri + "\n");
 

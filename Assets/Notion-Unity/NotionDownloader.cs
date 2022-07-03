@@ -19,7 +19,7 @@ namespace NotionUnity
         /// Download a notion table and return the parsed object
         /// </summary>
         /// <param name="databaseID"></param>
-        public static async Task<TableResult> GetTableAsync(string databaseID)
+        public static async UniTask<TableResult> GetTableAsync(string databaseID)
         {
             var route = $"{Notion.API_URL}/databases/{databaseID.Replace("-", "")}/query";
 
@@ -58,7 +58,7 @@ namespace NotionUnity
         /// <param name="cursor">Start cursor for paginated results</param>
         /// <param name="silent"></param>
         /// <returns></returns>
-        private static async Task<JObject> GetRequest(string uri, string cursor, string method, bool silent = false)
+        private static async UniTask<JObject> GetRequest(string uri, string cursor, string method, bool silent = false)
         {
             var postData = string.Empty;
             if (string.IsNullOrEmpty(cursor) == false)
@@ -126,7 +126,7 @@ namespace NotionUnity
         /// </summary>
         /// <param name="urlID"></param>
         /// <param name="silent"></param>
-        public static async Task<PageResult> GetPageAsync(string urlID, bool silent = false)
+        public static async UniTask<PageResult> GetPageAsync(string urlID, bool silent = false)
         {
             var route = $"{Notion.API_URL}/pages/{urlID}";
 
@@ -148,7 +148,7 @@ namespace NotionUnity
         /// Download a notion page CONTENT 
         /// </summary>
         /// <param name="pageID"></param>
-        public static async Task<PageContentResult> GetPageContentAsync(string pageID)
+        public static async UniTask<PageContentResult> GetPageContentAsync(string pageID)
         {
             var route = $"{Notion.API_URL}/blocks/{pageID}/children";
 
